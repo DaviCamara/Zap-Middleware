@@ -1,4 +1,4 @@
-package tcc.enterprises.fakenewsdetectorbot.services;
+package tcc.enterprise.fakenewsbot.services;
 
 import org.springframework.stereotype.Service;
 
