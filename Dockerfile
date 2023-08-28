@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk-slim
-ARG JAR_FILE=target/*.jar
 COPY --from=build /target app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+RUN mvn clean package -Dmaven.test.skip=truegit
+#ENTRYPOINT ["java", "-jar", "/app.jar"]
