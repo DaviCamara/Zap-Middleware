@@ -1,5 +1,5 @@
-FROM openjdk:17-jdk-slim
-ARG JAR_FILE=target/*.jar
-COPY --from=build /target .
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+FROM eclipse-temurin:17-jdk-alpine
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
