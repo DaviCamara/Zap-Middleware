@@ -1,11 +1,33 @@
 package tcc.enterprise.fakenewsbot.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import tcc.enterprise.fakenewsbot.Model.MessageCallBackModel;
 
 @Service
 public class ZapCallBaackService {
+    @Value("${verify-token}")
+    String envVerifyToken;
 
-   // private TravelFactory factory;
+
+    public MessageCallBackModel parseJson(String inputJson) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        MessageCallBackModel callBackJson = objectMapper.readValue(inputJson, MessageCallBackModel.class);
+        return callBackJson;
+    }
+
+    public boolean verifyHandShake(String hubVerifyToken){
+
+        if(hubVerifyToken.equals(envVerifyToken)){
+            return true;
+
+        }else{
+            return false;
+        }
+    }
  //   private List<Travel> travels;
 
 //    public void createTravelFactory() {
