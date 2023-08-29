@@ -23,7 +23,7 @@ public class ZapCallBaackController {
 
         MessageCallBackModel retornoCallback = zapCallBaackService.parseJson(inputJson);
         //logger.info(zapCallBaackService.find());
-        logger.info("[JSON CALLBACK:]" + retornoCallback);
+        logger.info("[JSON CALLBACK]--CallBack: " + retornoCallback.toString());
         return ResponseEntity.ok("ok");
     }
 
@@ -32,7 +32,7 @@ public class ZapCallBaackController {
                                                         @RequestParam(name = "hub.challenge") Integer hubChallenge,
                                                         @RequestParam(name = "hub.verify_token") String hubVerifyToken) {
 
-        logger.info("[WhatApp-HandShake]");
+        logger.info("[WhatApp-HandShake]--Challenge: " + hubChallenge);
         Boolean handshake = zapCallBaackService.verifyHandShake(hubVerifyToken);
         if(handshake) {
             return ResponseEntity.ok(hubChallenge);
