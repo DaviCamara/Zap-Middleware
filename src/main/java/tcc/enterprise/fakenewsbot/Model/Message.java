@@ -3,6 +3,7 @@ package tcc.enterprise.fakenewsbot.Model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Getter
 @Setter
