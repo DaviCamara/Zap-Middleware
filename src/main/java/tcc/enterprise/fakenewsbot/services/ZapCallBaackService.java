@@ -89,6 +89,7 @@ public class ZapCallBaackService {
         //TODO: REST CALL TO REDE NEURAL.
     }
 
+    //TODO: TESTAR
     //TODO: MODULARIZAR O PARAMETRO DE TEXTO, AVERIGAR SE O NUMERO de telefone DEVERIA VIR DA REDE NEURAL
 
     public String sendWhatsappMessage(String phoneNumberReciever, String percentual) throws URISyntaxException {
