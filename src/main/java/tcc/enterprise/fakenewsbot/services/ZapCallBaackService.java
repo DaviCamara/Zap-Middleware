@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tcc.enterprise.fakenewsbot.Model.Medias.MediaUrl;
 import tcc.enterprise.fakenewsbot.Model.Message;
-import tcc.enterprise.fakenewsbot.Model.MessageCallBackModel;
+import tcc.enterprise.fakenewsbot.Model.MessageCallBack;
 import tcc.enterprise.fakenewsbot.Model.Messages.MessageAvulsa;
 import tcc.enterprise.fakenewsbot.Model.Messages.Text;
 import tcc.enterprise.fakenewsbot.util.enums.MessageTypes;
@@ -38,20 +38,23 @@ public class ZapCallBaackService {
         }
     }
 
-    public MessageCallBackModel parseJson(String inputJson) throws JsonProcessingException {
+    public MessageCallBack parseJson(String inputJson) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        MessageCallBackModel callBackJson = objectMapper.readValue(inputJson, MessageCallBackModel.class);
+        MessageCallBack callBackJson = objectMapper.readValue(inputJson, MessageCallBack.class);
         return callBackJson;
     }
 
-    public String callBackHandler(MessageCallBackModel messageCallBackModel) throws URISyntaxException {
-        Message message = messageCallBackModel.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
+    public String callBackHandler(MessageCallBack messageCallBack) throws URISyntaxException {
+        Message message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
 
         if (message.getType() != MessageTypes.TEXT.getDescription()) {
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
             byte[] media = downloadWhatsAppMedia(mediaUrl);
             sendMediaToRedeNeural(media);
+
+            sendWhatsappMessage(messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id(), "95");
+
             return "ok";
         }
         return "notMedia";
@@ -89,9 +92,7 @@ public class ZapCallBaackService {
         //TODO: REST CALL TO REDE NEURAL.
     }
 
-    //TODO: TESTAR
     //TODO: MODULARIZAR O PARAMETRO DE TEXTO, AVERIGAR SE O NUMERO de telefone DEVERIA VIR DA REDE NEURAL
-
     public String sendWhatsappMessage(String phoneNumberReciever, String percentual) throws URISyntaxException {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -118,103 +119,6 @@ public class ZapCallBaackService {
 
         ResponseEntity<MessageAvulsa> result = restTemplate.exchange(uri, HttpMethod.POST, entity, MessageAvulsa.class);
 
-        //Assertions.assertEquals(201, result.getStatusCodeValue());
-        //Assertions.assertNotNull(result.getBody().getId());
-
         return "ok";
     }
-    //   private List<Travel> travels;
-
-//    public void createTravelFactory() {
-//        if(factory == null) {
-//            factory = new TravelFactoryImpl();
-//        }
-//    }
-//
-//    public void createTravelList() {
-//        if(travels == null) {
-//            travels = new ArrayList<>();
-//        }
-//    }
-//
-//    public boolean isJSONValid(String jsonInString) {
-//        try {
-//            return new ObjectMapper().readTree(jsonInString) != null;
-//        } catch (IOException e) {
-//            return false;
-//        }
-//    }
-//
-//    private long parseId(JSONObject travel) {
-//        return Long.valueOf((int) travel.get("id"));
-//    }
-//
-//    private BigDecimal parseAmount(JSONObject travel) {
-//        return new BigDecimal((String) travel.get("amount"));
-//    }
-//
-//    private LocalDateTime parseStartDate(JSONObject travel) {
-//        var startDate = (String) travel.get("startDate");
-//        return ZonedDateTime.parse(startDate).toLocalDateTime();
-//    }
-//
-//    private LocalDateTime parseEndDate(JSONObject travel) {
-//        var endDate = (String) travel.get("endDate");
-//        return ZonedDateTime.parse(endDate).toLocalDateTime();
-//    }
-//
-//    public boolean isStartDateGreaterThanEndDate(Travel travel) {
-//        if (travel.getEndDate() == null) return false;
-//        return travel.getStartDate().isAfter(travel.getEndDate());
-//    }
-//
-//    private void setTravelValues(JSONObject jsonTravel, Travel travel) {
-//
-//        String orderNumber = (String) jsonTravel.get("orderNumber");
-//        String type = (String) jsonTravel.get("type");
-//
-//        travel.setOrderNumber(orderNumber != null ? orderNumber : travel.getOrderNumber());
-//        travel.setAmount(jsonTravel.get("amount") != null ? parseAmount(jsonTravel) : travel.getAmount());
-//        travel.setStartDate(jsonTravel.get("initialDate") != null ? parseStartDate(jsonTravel) : travel.getStartDate());
-//        travel.setEndDate(jsonTravel.get("finalDate") != null ? parseEndDate(jsonTravel) : travel.getEndDate());
-//        travel.setType(type != null ? TravelTypeEnum.getEnum(type) : travel.getType());
-//    }
-//
-//    public Travel create(JSONObject jsonTravel) {
-//
-//        createFactory();
-//
-//        Travel travel = factory.createTravel((String) jsonTravel.get("type"));
-//        travel.setId(parseId(jsonTravel));
-//        setTravelValues(jsonTravel, travel);
-//
-//        return travel;
-//    }
-//
-//    public Travel update(Travel travel, JSONObject jsonTravel) {
-//
-//        setTravelValues(jsonTravel, travel);
-//        return travel;
-//    }
-//
-//    public void add(Travel travel) {
-//        createTravelList();
-//        travels.add(travel);
-//    }
-//    public List<Travel> find() {
-//        createTravelList();
-//        return travels;
-//    }
-//    public Travel findById(long id) {
-//        return travels.stream().filter(t -> id == t.getId()).collect(Collectors.toList()).get(0);
-//    }
-//
-//    public void delete() {
-//        travels.clear();
-//    }
-//
-//    public void clearObjects() {
-//        travels = null;
-//        factory = null;
-//    }
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tcc.enterprise.fakenewsbot.Model.MessageCallBackModel;
+import tcc.enterprise.fakenewsbot.Model.MessageCallBack;
 import tcc.enterprise.fakenewsbot.services.ZapCallBaackService;
 
 import java.net.URISyntaxException;
@@ -22,7 +22,7 @@ public class ZapCallBaackController {
     @PostMapping("/webhook")
     public ResponseEntity<String> read(@RequestBody String inputJson) throws JsonProcessingException, URISyntaxException {
 
-        MessageCallBackModel retornoCallback = zapCallBaackService.parseJson(inputJson);
+        MessageCallBack retornoCallback = zapCallBaackService.parseJson(inputJson);
         String retornoHandler = zapCallBaackService.callBackHandler(retornoCallback);
 
         //logger.info(zapCallBaackService.find());

@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class MessageCallBackModel {
+public class MessageCallBack {
 
     private String object;
     private List<Entry> entry;
