@@ -16,9 +16,6 @@ public class ZapCallBaackController {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(ZapCallBaackController.class));
 
-    @Autowired
-    private ZapCallBaackService zapCallBaackService;
-
     @PostMapping("/webhook")
     public ResponseEntity<String> read(@RequestBody String inputJson) throws JsonProcessingException, URISyntaxException {
 
@@ -30,6 +27,9 @@ public class ZapCallBaackController {
         logger.info("[JSON retorno HANDLER]--HANDLER:" +retornoHandler);
         return ResponseEntity.ok("ok");
     }
+
+    @Autowired
+    private ZapCallBaackService zapCallBaackService;
 
     //
     @GetMapping("/webhook")

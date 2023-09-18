@@ -14,13 +14,16 @@ import tcc.enterprise.fakenewsbot.Model.Message;
 import tcc.enterprise.fakenewsbot.Model.MessageCallBack;
 import tcc.enterprise.fakenewsbot.Model.Messages.MessageAvulsa;
 import tcc.enterprise.fakenewsbot.Model.Messages.Text;
+import tcc.enterprise.fakenewsbot.controllers.ZapCallBaackController;
 import tcc.enterprise.fakenewsbot.util.enums.MessageTypes;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.logging.Logger;
 
 @Service
 public class ZapCallBaackService {
+    private static final Logger logger = Logger.getLogger(String.valueOf(ZapCallBaackService.class));
     @Value("${verify-token}")
     String envVerifyToken;
     @Value("${phone-number-sender}")
@@ -53,7 +56,12 @@ public class ZapCallBaackService {
             byte[] media = downloadWhatsAppMedia(mediaUrl);
             sendMediaToRedeNeural(media);
 
-            sendWhatsappMessage(messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id(), "95");
+            //TODO REMOVER QUANDO FOR IMPLEMENTANDO REDE NEURAL
+            String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
+
+            logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
+
+            sendWhatsappMessage(phonenumberReciever, "95");
 
             return "ok";
         }
