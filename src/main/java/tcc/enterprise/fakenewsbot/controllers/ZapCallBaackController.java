@@ -16,6 +16,13 @@ public class ZapCallBaackController {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(ZapCallBaackController.class));
 
+
+    @GetMapping("/hello-world")
+    public ResponseEntity<String> hellowWorld() {
+
+        logger.info("hello-world");
+        return ResponseEntity.ok("hello-world");
+    }
     @PostMapping("/webhook")
     public ResponseEntity<String> read(@RequestBody String inputJson) throws JsonProcessingException, URISyntaxException {
 
@@ -31,7 +38,7 @@ public class ZapCallBaackController {
     @Autowired
     private ZapCallBaackService zapCallBaackService;
 
-    //
+
     @GetMapping("/webhook")
     public ResponseEntity<Integer> webhookAuthentication(@RequestParam(name = "hub.mode") String hubMode,
                                                          @RequestParam(name = "hub.challenge") Integer hubChallenge,
@@ -55,60 +62,4 @@ public class ZapCallBaackController {
         zapCallBaackService.sendWhatsappMessage(phoneNumberReciever, percentual);
         return ResponseEntity.ok("ok");
     }
-
-//    @DeleteMapping
-//    public ResponseEntity<Boolean> delete() {
-//        try {
-//            travelService.delete();
-//            return ResponseEntity.noContent().build();
-//        }catch(Exception e) {
-//            logger.error(e);
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        }
-//    }
-//
-//    @PostMapping
-//    @ResponseBody
-//    public ResponseEntity<Travel> create(@RequestBody JSONObject travel) {
-//        try {
-//            if(travelService.isJSONValid(travel.toString())) {
-//                Travel travelCreated = travelService.create(travel);
-//                var uri = ServletUriComponentsBuilder.fromCurrentRequest().path(travelCreated.getOrderNumber()).build().toUri();
-//
-//                if(travelService.isStartDateGreaterThanEndDate(travelCreated)){
-//                    logger.error("The start date is greater than end date.");
-//                    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
-//                }else {
-//                    travelService.add(travelCreated);
-//                    return ResponseEntity.created(uri).body(null);
-//                }
-//            }else {
-//                return ResponseEntity.badRequest().body(null);
-//            }
-//        }catch(Exception e) {
-//            logger.error("JSON fields are not parsable. " + e);
-//            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
-//        }
-//    }
-//
-//    @PutMapping(path = "/{id}", produces = { "application/json" })
-//    public ResponseEntity<Travel> update(@PathVariable("id") long id, @RequestBody JSONObject travel) {
-//        try {
-//            if(travelService.isJSONValid(travel.toString())) {
-//                Travel travelToUpdate = travelService.findById(id);
-//                if(travelToUpdate == null){
-//                    logger.error("Travel not found.");
-//                    return ResponseEntity.notFound().build();
-//                }else {
-//                    Travel travelToUpdate = travelService.update(travelToUpdate, travel);
-//                    return ResponseEntity.ok(travelToUpdate);
-//                }
-//            }else {
-//                return ResponseEntity.badRequest().body(null);
-//            }
-//        }catch(Exception e) {
-//            logger.error("JSON fields are not parsable." + e);
-//            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
-//        }
-//    }
 }
