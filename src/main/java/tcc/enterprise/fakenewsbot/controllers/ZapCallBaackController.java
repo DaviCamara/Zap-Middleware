@@ -66,9 +66,9 @@ public class ZapCallBaackController {
         media.getName();
         byte[] strToBytes = media.getBytes();
 
-        zapCallBaackService.sendMediaToRedeNeural(strToBytes);
+       String percentual =  zapCallBaackService.sendMediaToRedeNeural(strToBytes);
 
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(percentual);
     }
 //    @GetMapping("/rede-neural-retorno")
 //    public ResponseEntity<String> retornoRedeNeural(@RequestParam(name = "percentual") String percentual,

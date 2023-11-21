@@ -16,10 +16,7 @@ import tcc.enterprise.fakenewsbot.Model.Messages.MessageAvulsa;
 import tcc.enterprise.fakenewsbot.Model.Messages.Text;
 import tcc.enterprise.fakenewsbot.util.enums.MessageTypes;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.*;
 import java.util.logging.Logger;
 
@@ -58,14 +55,14 @@ public class ZapCallBaackService {
             byte[] media = downloadWhatsAppMedia(mediaUrl);
             logger.info("mediaaaaaaaaaa" + media);
 
-            sendMediaToRedeNeural(media);
+            String percentual = sendMediaToRedeNeural(media);
 
             //TODO REMOVER QUANDO FOR IMPLEMENTANDO REDE NEURAL
             String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
 
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
 
-            sendWhatsappMessage(phonenumberReciever, "95");
+            sendWhatsappMessage(phonenumberReciever, percentual);
 
             return "ok";
         }
@@ -128,14 +125,27 @@ public class ZapCallBaackService {
 
         // Get the response code
         int responseCode = connection.getResponseCode();
-        connection.getContent();
         System.out.println("Response Code: " + responseCode);
 
-        // Handle the response as needed
+        String line = null;
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            InputStream inputStream = connection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            //while (reader.readLine() != null) {
+             line = reader.readLine();
+                System.out.println(reader.readLine());
+          //  }
+
+            reader.close();
+        } else {
+            System.out.println("Error in HTTP request: " + responseCode);
+        }
+
 
         // Close the connection
         connection.disconnect();
-        return "ok";
+        return line;
     }
 
     private static void writeFormField(OutputStream outputStream, String fieldName, String fileName, byte[] fileBytes) throws IOException {
