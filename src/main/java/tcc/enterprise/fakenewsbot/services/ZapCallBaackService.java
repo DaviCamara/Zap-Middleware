@@ -17,6 +17,7 @@ import tcc.enterprise.fakenewsbot.Model.Messages.Text;
 import tcc.enterprise.fakenewsbot.util.enums.MessageTypes;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.*;
 import java.util.logging.Logger;
 
@@ -55,15 +56,14 @@ public class ZapCallBaackService {
             byte[] media = downloadWhatsAppMedia(mediaUrl);
             logger.info("mediaaaaaaaaaa" + media);
 
-
-            String percentual = String.format("%.2f", sendMediaToRedeNeural(media));
+            Double percentual = sendMediaToRedeNeural(media);
 
             //TODO REMOVER QUANDO FOR IMPLEMENTANDO REDE NEURAL
             String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
 
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
-
-            sendWhatsappMessage(phonenumberReciever, percentual);
+            String percentualFormated = String.format("%.2f", percentual);
+            sendWhatsappMessage(phonenumberReciever, percentualFormated);
 
             return "ok";
         }
@@ -99,8 +99,8 @@ public class ZapCallBaackService {
         return result.getBody();
     }
 
-    public String sendMediaToRedeNeural(byte[] media) throws IOException {
 
+    public Double sendMediaToRedeNeural(byte[] media) throws IOException {
         byte[] fileBytes = media;
         String uploadUrl = "http://67.205.179.72:5000/";
 
@@ -146,7 +146,17 @@ public class ZapCallBaackService {
 
         // Close the connection
         connection.disconnect();
-        return line;
+
+        try {
+            // Convert the string to a double using Double.parseDouble
+            double percentual = Double.parseDouble(line);
+            System.out.println("Converted to double: " + percentual);
+            return percentual;
+            // Print the result
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format");
+        }
+        return null;
     }
 
     private static void writeFormField(OutputStream outputStream, String fieldName, String fileName, byte[] fileBytes) throws IOException {
