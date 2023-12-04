@@ -55,7 +55,8 @@ public class ZapCallBaackService {
             byte[] media = downloadWhatsAppMedia(mediaUrl);
             logger.info("mediaaaaaaaaaa" + media);
 
-            String percentual = sendMediaToRedeNeural(media);
+
+            String percentual = String.format("%.2f", sendMediaToRedeNeural(media));
 
             //TODO REMOVER QUANDO FOR IMPLEMENTANDO REDE NEURAL
             String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
