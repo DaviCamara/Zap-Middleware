@@ -67,8 +67,6 @@ public class ZapCallBaackService {
 
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
             //String percentualFormated = String.format("%.2f", percentual);
-
-            return "ok";
         }
         if(message.getType().equals(MessageTypes.TEXT.getDescription())){
             caseTexto = message.getText().getBody();
@@ -78,7 +76,7 @@ public class ZapCallBaackService {
 
         sendWhatsappMessage(phonenumberReciever, messagemEnviar);
 
-        return "notMedia";
+        return "ok";
 
     }
 
