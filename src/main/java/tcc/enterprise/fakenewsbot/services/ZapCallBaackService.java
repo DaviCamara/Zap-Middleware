@@ -97,7 +97,7 @@ public class ZapCallBaackService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ResponseEntity<byte[]> result = restTemplate.exchange(uri, HttpMethod.GET, entity, byte[].class);
-
+        logger.info("body de retorno de download da media:" + result.getBody());
         return result.getBody();
     }
 
