@@ -138,9 +138,11 @@ public class ZapCallBaackService {
        reply.setTitle("teste3");
 
        button.setReply(reply);
+       buttons.add(button);
 
        action.setButtons(buttons);
 
+       interactive.setAction(action);
        messageInterativa.setInteractive(interactive);
 
        HttpEntity<MessageInterativa> entity = new HttpEntity<>(messageInterativa, headers);
