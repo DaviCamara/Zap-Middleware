@@ -8,6 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Text {
+    private Boolean preview_url;
     private String body;
-
 }

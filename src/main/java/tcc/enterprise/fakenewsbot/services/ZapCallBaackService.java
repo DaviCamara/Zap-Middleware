@@ -5,19 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 import tcc.enterprise.fakenewsbot.Model.Medias.MediaUrl;
 import tcc.enterprise.fakenewsbot.Model.Message;
 import tcc.enterprise.fakenewsbot.Model.MessageCallBack;
 import tcc.enterprise.fakenewsbot.Model.Messages.MessageAvulsa;
-import tcc.enterprise.fakenewsbot.Model.Messages.Text;
+import tcc.enterprise.fakenewsbot.Model.Text;
+import tcc.enterprise.fakenewsbot.util.enums.MessageIndex;
 import tcc.enterprise.fakenewsbot.util.enums.MessageTypes;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.net.*;
 import java.util.logging.Logger;
 
@@ -50,9 +47,13 @@ public class ZapCallBaackService {
 
     public String callBackHandler(MessageCallBack messageCallBack) throws URISyntaxException, IOException {
         Message message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
-        logger.info("message-padrao: " + message.toString());
+        String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
+        String messagemEnviar = null;
+        String caseTexto = null;
 
+        logger.info("message-padrao: " + message.toString());
         if (!message.getType().equals(MessageTypes.TEXT.getDescription())) {
+            caseTexto = "4";
             logger.info("media-id: " +message.getAudio().getId());
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
 
@@ -61,20 +62,73 @@ public class ZapCallBaackService {
 
             Double percentual = sendMediaToRedeNeural(media);
 
-            String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
+            messagemEnviar = messageHandler(caseTexto);
+            String.format (messagemEnviar, percentual);
 
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
-            String percentualFormated = String.format("%.2f", percentual);
-            sendWhatsappMessage(phonenumberReciever, percentualFormated);
+            //String percentualFormated = String.format("%.2f", percentual);
 
             return "ok";
         }
         if(message.getType().equals(MessageTypes.TEXT.getDescription())){
+            caseTexto = message.getText().getBody();
             logger.info("message: " +message.getText().getBody());
+            messagemEnviar =  messageHandler(caseTexto);
+
         }
+
+        sendWhatsappMessage(phonenumberReciever, messagemEnviar);
 
         return "notMedia";
 
+    }
+
+    private String messageHandler(String messageRecieved) throws URISyntaxException {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if(messageRecieved.equals(MessageIndex.ONE.getText())) {
+            System.out.println("ASD");
+        } else if (messageRecieved.equals(MessageIndex.TWO.getText())){
+            System.out.println("ASD");
+        } else if(messageRecieved.equals(MessageIndex.THREE.getText())){
+            System.out.println("ASD");
+        }else if(messageRecieved.equals(MessageIndex.FOUR.getText())){
+            stringBuilder.append("Percentual de acerto: %.2f %");
+        }
+        else {
+            stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação");
+        }
+        return stringBuilder.toString();
+    }
+
+    public String sendWhatsappMessage(String phoneNumberReciever, String message) throws URISyntaxException {
+
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = new URI("https://graph.facebook.com/v17.0/" + phoneNumberSender + "/messages");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + permanentAcessToken2);
+        headers.set("Content-Type", "application/json");
+
+        MessageAvulsa messageAvulsa = new MessageAvulsa();
+        Text text = new Text();
+
+        text.setPreview_url(false);
+        text.setBody(message);
+
+
+        messageAvulsa.setText(text);
+        messageAvulsa.setMessaging_product("whatsapp");
+        messageAvulsa.setRecipient_type("individual");
+        messageAvulsa.setTo(phoneNumberReciever);
+        messageAvulsa.setType("text");
+
+        HttpEntity<MessageAvulsa> entity = new HttpEntity<>(messageAvulsa, headers);
+
+
+        ResponseEntity<MessageAvulsa> result = restTemplate.exchange(uri, HttpMethod.POST, entity, MessageAvulsa.class);
+
+        return "ok";
     }
 
     public MediaUrl getWhatsAppMediaUrl(String mediaId) throws URISyntaxException {
@@ -181,34 +235,5 @@ public class ZapCallBaackService {
         // Write the end delimiter
         outputStream.write(endDelimiter.getBytes());
     }
-
     //TODO: MODULARIZAR O PARAMETRO DE TEXTO, AVERIGAR SE O NUMERO de telefone DEVERIA VIR DA REDE NEURAL
-    public String sendWhatsappMessage(String phoneNumberReciever, String percentual) throws URISyntaxException {
-
-        RestTemplate restTemplate = new RestTemplate();
-        URI uri = new URI("https://graph.facebook.com/v17.0/" + phoneNumberSender + "/messages");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + permanentAcessToken2);
-        headers.set("Content-Type", "application/json");
-
-        MessageAvulsa messageAvulsa = new MessageAvulsa();
-        Text text = new Text();
-        text.setPreview_url(false);
-        text.setBody("Percentual de acerto: " + percentual + "%");
-
-
-        messageAvulsa.setText(text);
-        messageAvulsa.setMessaging_product("whatsapp");
-        messageAvulsa.setRecipient_type("individual");
-        messageAvulsa.setTo(phoneNumberReciever);
-        messageAvulsa.setType("text");
-
-        HttpEntity<MessageAvulsa> entity = new HttpEntity<>(messageAvulsa, headers);
-
-
-        ResponseEntity<MessageAvulsa> result = restTemplate.exchange(uri, HttpMethod.POST, entity, MessageAvulsa.class);
-
-        return "ok";
-    }
 }
