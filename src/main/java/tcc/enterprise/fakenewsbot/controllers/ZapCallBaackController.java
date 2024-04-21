@@ -1,6 +1,5 @@
 package tcc.enterprise.fakenewsbot.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,12 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import tcc.enterprise.fakenewsbot.Model.MessageCallBack;
 import tcc.enterprise.fakenewsbot.services.ZapCallBaackService;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.ByteBuffer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 @RestController
@@ -67,7 +62,7 @@ public class ZapCallBaackController {
         byte[] strToBytes = media.getBytes();
 
         String percentual = String.format("%.2f", zapCallBaackService.sendMediaToRedeNeural(strToBytes));
-      // String percentual =  zapCallBaackService.sendMediaToRedeNeural(strToBytes);
+        // String percentual =  zapCallBaackService.sendMediaToRedeNeural(strToBytes);
 
         return ResponseEntity.ok(percentual);
     }

@@ -52,7 +52,9 @@ public class ZapCallBaackService {
         Message message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
 
         if (message.getType() != MessageTypes.TEXT.getDescription()) {
+            logger.info("media-id: " +message.getAudio().getId());
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
+
             byte[] media = downloadWhatsAppMedia(mediaUrl);
             logger.info("mediaaaaaaaaaa" + media);
 
@@ -81,7 +83,7 @@ public class ZapCallBaackService {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<MediaUrl> result = restTemplate.exchange(uri, HttpMethod.GET, entity, MediaUrl.class);
-
+        logger.info("body de retorno de buscar url de media:" + result.getBody());
         return result.getBody();
     }
 
@@ -102,7 +104,7 @@ public class ZapCallBaackService {
 
     public Double sendMediaToRedeNeural(byte[] media) throws IOException {
         byte[] fileBytes = media;
-        String uploadUrl = "http://67.205.179.72:5000/";
+        String uploadUrl = "http://104.131.190.85:5000/";
 
         // Create connection
         URL url = new URL(uploadUrl);
