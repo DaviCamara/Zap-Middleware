@@ -50,17 +50,17 @@ public class ZapCallBaackService {
 
     public String callBackHandler(MessageCallBack messageCallBack) throws URISyntaxException, IOException {
         Message message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
+        logger.info("message-padrao: " + message.toString());
 
         if (message.getType() != MessageTypes.TEXT.getDescription()) {
             logger.info("media-id: " +message.getAudio().getId());
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
 
             byte[] media = downloadWhatsAppMedia(mediaUrl);
-            logger.info("mediaaaaaaaaaa" + media);
+            logger.info("media" + media);
 
             Double percentual = sendMediaToRedeNeural(media);
 
-            //TODO REMOVER QUANDO FOR IMPLEMENTANDO REDE NEURAL
             String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
 
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
@@ -69,6 +69,10 @@ public class ZapCallBaackService {
 
             return "ok";
         }
+        if(message.getType() == MessageTypes.TEXT.getDescription()){
+            logger.info("message: " +message.getText().getBody());
+        }
+
         return "notMedia";
 
     }

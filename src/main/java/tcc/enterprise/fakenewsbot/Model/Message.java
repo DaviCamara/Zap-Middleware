@@ -14,4 +14,5 @@ public class Message {
     private String timestamp;
     private String type;
     private Audio audio;
+    private Text text;
 }
