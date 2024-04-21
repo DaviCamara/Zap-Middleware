@@ -46,6 +46,7 @@ public class ZapCallBaackService {
     }
 
     public String callBackHandler(MessageCallBack messageCallBack) throws URISyntaxException, IOException {
+        // message = "true";
         Message message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
         String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
         String messagemEnviar = null;
@@ -62,8 +63,7 @@ public class ZapCallBaackService {
 
             Double percentual = sendMediaToRedeNeural(media);
 
-            messagemEnviar = messageHandler(caseTexto);
-            String.format (messagemEnviar, percentual);
+            messagemEnviar = String.format(messageHandler(caseTexto), percentual);
 
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
             //String percentualFormated = String.format("%.2f", percentual);
@@ -74,7 +74,6 @@ public class ZapCallBaackService {
             caseTexto = message.getText().getBody();
             logger.info("message: " +message.getText().getBody());
             messagemEnviar =  messageHandler(caseTexto);
-
         }
 
         sendWhatsappMessage(phonenumberReciever, messagemEnviar);
@@ -93,7 +92,7 @@ public class ZapCallBaackService {
         } else if(messageRecieved.equals(MessageIndex.THREE.getText())){
             System.out.println("ASD");
         }else if(messageRecieved.equals(MessageIndex.FOUR.getText())){
-            stringBuilder.append("Percentual de acerto: %.2f %");
+            stringBuilder.append("Percentual de acerto: %.2f%%");
         }
         else {
             stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação");
