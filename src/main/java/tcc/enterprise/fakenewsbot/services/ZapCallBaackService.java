@@ -52,7 +52,7 @@ public class ZapCallBaackService {
         Message message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
         logger.info("message-padrao: " + message.toString());
 
-        if (message.getType() != MessageTypes.TEXT.getDescription()) {
+        if (!message.getType().equals(MessageTypes.TEXT.getDescription())) {
             logger.info("media-id: " +message.getAudio().getId());
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
 
@@ -69,7 +69,7 @@ public class ZapCallBaackService {
 
             return "ok";
         }
-        if(message.getType() == MessageTypes.TEXT.getDescription()){
+        if(message.getType().equals(MessageTypes.TEXT.getDescription())){
             logger.info("message: " +message.getText().getBody());
         }
 
