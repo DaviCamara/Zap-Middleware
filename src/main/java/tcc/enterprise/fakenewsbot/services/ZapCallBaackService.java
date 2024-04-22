@@ -61,6 +61,7 @@ public class ZapCallBaackService {
             phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
         }
         String messagemEnviar = null;
+        String messagemAguarde = null;
         String caseTexto = null;
 
         logger.info("message-padrao: " + message.toString());
@@ -77,6 +78,9 @@ public class ZapCallBaackService {
             sendWhatsappInteractiveMessage(phonenumberReciever, messagemEnviar);
 
         } else {
+            caseTexto = "aguarde";
+            messagemAguarde = messageHandler(caseTexto);
+            sendWhatsappMessage(phonenumberReciever, messagemAguarde);
             caseTexto = "rede-neural";
             logger.info("media-id: " + message.getAudio().getId());
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
@@ -85,7 +89,6 @@ public class ZapCallBaackService {
             logger.info("media" + media);
 
             Double percentual = sendMediaToRedeNeural(media);
-
             messagemEnviar = String.format(messageHandler(caseTexto), percentual);
             sendWhatsappMessage(phonenumberReciever, messagemEnviar);
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
@@ -107,7 +110,9 @@ public class ZapCallBaackService {
             stringBuilder.append(Respostas.SUPPORT.getText());
         } else if (messageRecieved.equals(MessageIndex.NINENINENINE.getId())){
             stringBuilder.append(Respostas.REDE_NEURAL.getText());
-        } else {
+        } else if (messageRecieved.equals(MessageIndex.NINENINEEIGTH.getId())){
+            stringBuilder.append(Respostas.AGUARDE.getText());
+        }else {
             stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação");
         }
         return stringBuilder.toString();
