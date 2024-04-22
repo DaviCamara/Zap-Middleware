@@ -53,10 +53,13 @@ public class ZapCallBaackService {
     public String callBackHandler(MessageCallBack messageCallBack) throws URISyntaxException, IOException {
         // message = "true";
         Message message = null;
-        if(messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() != null) {
-          message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
+        String phonenumberReciever = null;
+        if (messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() != null) {
+            message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
         }
-        String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
+        if (messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts() != null) {
+            phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
+        }
         String messagemEnviar = null;
         String caseTexto = null;
 
@@ -73,8 +76,8 @@ public class ZapCallBaackService {
             messagemEnviar = messageHandler(caseTexto);
             sendWhatsappInteractiveMessage(phonenumberReciever, messagemEnviar);
 
-        }  else if (!message.getType().equals(MessageTypes.TEXT.getDescription())) {
-            caseTexto = "4";
+        } else {
+            caseTexto = "rede-neural";
             logger.info("media-id: " + message.getAudio().getId());
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
 
@@ -102,7 +105,9 @@ public class ZapCallBaackService {
             stringBuilder.append(Respostas.SITE.getText());
         } else if (messageRecieved.equals(MessageIndex.TWO.getId())) {
             stringBuilder.append(Respostas.SUPPORT.getText());
-        }  else {
+        } else if (messageRecieved.equals(MessageIndex.NINENINENINE.getId())){
+            stringBuilder.append(Respostas.REDE_NEURAL.getText());
+        } else {
             stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação");
         }
         return stringBuilder.toString();
