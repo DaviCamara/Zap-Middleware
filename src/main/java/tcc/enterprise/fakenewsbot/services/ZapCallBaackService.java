@@ -61,9 +61,8 @@ public class ZapCallBaackService {
         String caseTexto = null;
 
         logger.info("message-padrao: " + message.toString());
-        if (message.getInteractive() != null){
-                //.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
-            caseTexto = message.getButton().getPayload();
+        if (message.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
+            caseTexto = message.getInteractive().getButton_reply().getId();
             logger.info("message Interactive: " + message);
             messagemEnviar = messageHandler(caseTexto);
             sendWhatsappMessage(phonenumberReciever, messagemEnviar);
@@ -99,9 +98,9 @@ public class ZapCallBaackService {
     private String messageHandler(String messageRecieved) throws URISyntaxException {
         StringBuilder stringBuilder = new StringBuilder();
 
-        if (messageRecieved.equals(MessageIndex.ONE.getText())) {
+        if (messageRecieved.equals(MessageIndex.ONE.getId())) {
             stringBuilder.append(Respostas.SITE.getText());
-        } else if (messageRecieved.equals(MessageIndex.TWO.getText())) {
+        } else if (messageRecieved.equals(MessageIndex.TWO.getId())) {
             stringBuilder.append(Respostas.SUPPORT.getText());
         }  else {
             stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação");
