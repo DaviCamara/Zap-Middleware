@@ -12,6 +12,7 @@ import tcc.enterprise.fakenewsbot.Model.MessageCallBack;
 import tcc.enterprise.fakenewsbot.Model.Messages.MessageAvulsa;
 import tcc.enterprise.fakenewsbot.Model.Messages.MessageInterativa.*;
 import tcc.enterprise.fakenewsbot.Model.Text;
+import tcc.enterprise.fakenewsbot.util.enums.Buttons;
 import tcc.enterprise.fakenewsbot.util.enums.MessageIndex;
 import tcc.enterprise.fakenewsbot.util.enums.MessageTypes;
 
@@ -58,7 +59,7 @@ public class ZapCallBaackService {
         logger.info("message-padrao: " + message.toString());
         if (!message.getType().equals(MessageTypes.TEXT.getDescription())) {
             caseTexto = "4";
-            logger.info("media-id: " +message.getAudio().getId());
+            logger.info("media-id: " + message.getAudio().getId());
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
 
             byte[] media = downloadWhatsAppMedia(mediaUrl);
@@ -72,10 +73,10 @@ public class ZapCallBaackService {
             //String percentualFormated = String.format("%.2f", percentual);
             return "enviouMedia";
         }
-        if(message.getType().equals(MessageTypes.TEXT.getDescription())){
+        if (message.getType().equals(MessageTypes.TEXT.getDescription())) {
             caseTexto = message.getText().getBody();
-            logger.info("message: " +message.getText().getBody());
-            messagemEnviar =  messageHandler(caseTexto);
+            logger.info("message: " + message.getText().getBody());
+            messagemEnviar = messageHandler(caseTexto);
             sendWhatsappInteractiveMessage(phonenumberReciever, messagemEnviar);
         }
 
@@ -87,71 +88,70 @@ public class ZapCallBaackService {
     private String messageHandler(String messageRecieved) throws URISyntaxException {
         StringBuilder stringBuilder = new StringBuilder();
 
-        if(messageRecieved.equals(MessageIndex.ONE.getText())) {
+        if (messageRecieved.equals(MessageIndex.ONE.getText())) {
             System.out.println("ASD");
-        } else if (messageRecieved.equals(MessageIndex.TWO.getText())){
+        } else if (messageRecieved.equals(MessageIndex.TWO.getText())) {
             System.out.println("ASD");
-        } else if(messageRecieved.equals(MessageIndex.THREE.getText())){
+        } else if (messageRecieved.equals(MessageIndex.THREE.getText())) {
             System.out.println("ASD");
-        }else if(messageRecieved.equals(MessageIndex.FOUR.getText())){
+        } else if (messageRecieved.equals(MessageIndex.FOUR.getText())) {
             stringBuilder.append("Percentual de acerto: %.2f%%");
-        }
-        else {
+        } else {
             stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação");
         }
         return stringBuilder.toString();
     }
 
 
-   public String sendWhatsappInteractiveMessage(String phoneNumberReciever, String message) throws URISyntaxException {
-       RestTemplate restTemplate = new RestTemplate();
-       URI uri = new URI("https://graph.facebook.com/v17.0/" + phoneNumberSender + "/messages");
+    public String sendWhatsappInteractiveMessage(String phoneNumberReciever, String message) throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = new URI("https://graph.facebook.com/v17.0/" + phoneNumberSender + "/messages");
 
-       HttpHeaders headers = new HttpHeaders();
-       headers.set("Authorization", "Bearer " + permanentAcessToken2);
-       headers.set("Content-Type", "application/json");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + permanentAcessToken2);
+        headers.set("Content-Type", "application/json");
 
-       MessageInterativa messageInterativa = new MessageInterativa();
-       messageInterativa.setMessaging_product("whatsapp");
-       messageInterativa.setRecipient_type("individual");
-       messageInterativa.setTo(phoneNumberReciever);
-       messageInterativa.setType("interactive");
+        MessageInterativa messageInterativa = new MessageInterativa();
+        messageInterativa.setMessaging_product("whatsapp");
+        messageInterativa.setRecipient_type("individual");
+        messageInterativa.setTo(phoneNumberReciever);
+        messageInterativa.setType("interactive");
 
-       Interactive interactive = new Interactive();
+        Interactive interactive = new Interactive();
 
-       interactive.setType("button");
+        interactive.setType("button");
 
-       Body bodyInteractive = new Body();
-       bodyInteractive.setText("teste");
+        Body bodyInteractive = new Body();
+        bodyInteractive.setText(message);
 
-       interactive.setBody(bodyInteractive);
+        interactive.setBody(bodyInteractive);
 
-       Action action = new Action();
-       List<Button> buttons = new ArrayList<>();
+        Action action = new Action();
+        List<Button> buttons = new ArrayList<>();
 
-       Button button = new Button();
+        for (Buttons button : Buttons.values()) {
+            Button buttonStub = new Button();
+            buttonStub.setType("reply");
+            Reply reply = new Reply();
+            reply.setId(button.getNome());
+            reply.setTitle(button.getText());
+            buttonStub.setReply(reply);
+            buttons.add(buttonStub);
+        }
 
-       button.setType("reply");
+        action.setButtons(buttons);
 
-       Reply reply = new Reply();
-       reply.setId("teste2");
-       reply.setTitle("teste3");
+        interactive.setAction(action);
+        messageInterativa.setInteractive(interactive);
 
-       button.setReply(reply);
-       buttons.add(button);
-
-       action.setButtons(buttons);
-
-       interactive.setAction(action);
-       messageInterativa.setInteractive(interactive);
-
-       HttpEntity<MessageInterativa> entity = new HttpEntity<>(messageInterativa, headers);
+        HttpEntity<MessageInterativa> entity = new HttpEntity<>(messageInterativa, headers);
 
 
-       ResponseEntity<MessageAvulsa> result = restTemplate.exchange(uri, HttpMethod.POST, entity, MessageAvulsa.class);
+        ResponseEntity<MessageAvulsa> result = restTemplate.exchange(uri, HttpMethod.POST, entity, MessageAvulsa.class);
 
-       return "ok";
-   }
+        return "ok";
+    }
+
     public String sendWhatsappMessage(String phoneNumberReciever, String message) throws URISyntaxException {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -245,9 +245,9 @@ public class ZapCallBaackService {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             //while (reader.readLine() != null) {
-             line = reader.readLine();
-                System.out.println(reader.readLine());
-          //  }
+            line = reader.readLine();
+            System.out.println(reader.readLine());
+            //  }
 
             reader.close();
         } else {
