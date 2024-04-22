@@ -8,7 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class InteractiveReply {
-    private ButtonReply button_reply;
     private String type;
-
+    private ButtonReply button_reply;
 }

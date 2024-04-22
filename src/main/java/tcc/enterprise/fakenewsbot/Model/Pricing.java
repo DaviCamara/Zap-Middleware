@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Pricing {
+    private String billable;
     private String Category;
     private String authentication;
     private String marketing;
