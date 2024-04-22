@@ -17,4 +17,6 @@ public class Value {
 
     private List<Message> messages;
 
+    private String statuses;
+
 }
