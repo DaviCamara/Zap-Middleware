@@ -17,6 +17,6 @@ public class Value {
 
     private List<Message> messages;
 
-    private List<Statuses> statues;
+    private List<Statuses> statuses;
 
 }
