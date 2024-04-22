@@ -29,7 +29,9 @@ public class ZapCallBaackController {
     public ResponseEntity<String> read(@RequestBody String inputJson) throws IOException, URISyntaxException {
 
         MessageCallBack retornoCallback = zapCallBaackService.parseJson(inputJson);
+        logger.info("retornoCallback: " +  retornoCallback);
         String retornoHandler = zapCallBaackService.callBackHandler(retornoCallback);
+        logger.info("retornoHandler: " + retornoHandler);
 
         //logger.info(zapCallBaackService.find());
         logger.info("[JSON CALLBACK]--CallBack: " + retornoCallback.toString());

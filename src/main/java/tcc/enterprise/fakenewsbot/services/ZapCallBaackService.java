@@ -58,19 +58,19 @@ public class ZapCallBaackService {
         String caseTexto = null;
 
         logger.info("message-padrao: " + message.toString());
-        if (message.getType().equals(MessageTypes.TEXT.getDescription())) {
-            caseTexto = message.getText().getBody();
-            logger.info("messageText: " + message);
-            messagemEnviar = messageHandler(caseTexto);
-            sendWhatsappInteractiveMessage(phonenumberReciever, messagemEnviar);
-
-        } else if (message.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
+        if (message.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
             caseTexto = message.getInteractive().getButton_reply().getTitle();
             logger.info("messageInteractive: " + message);
             messagemEnviar = messageHandler(caseTexto);
             sendWhatsappMessage(phonenumberReciever, messagemEnviar);
             return "enviouInteractive";
-        } else if (!message.getType().equals(MessageTypes.TEXT.getDescription())) {
+        } else if (message.getType().equals(MessageTypes.TEXT.getDescription())) {
+            caseTexto = message.getText().getBody();
+            logger.info("messageText: " + message);
+            messagemEnviar = messageHandler(caseTexto);
+            sendWhatsappInteractiveMessage(phonenumberReciever, messagemEnviar);
+
+        }  else if (!message.getType().equals(MessageTypes.TEXT.getDescription())) {
             caseTexto = "4";
             logger.info("media-id: " + message.getAudio().getId());
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
