@@ -1,7 +1,7 @@
 package tcc.enterprise.fakenewsbot.util.enums;
 
 public enum Buttons {
-    SITE("visitar-site","Visitar o nosso site!"), SUPPORT("suporte","Falar com o Suporte");
+    SITE("visitar-site","Visitar o nosso site"), SUPPORT("suporte","Falar com o Suporte");
 
     private String nome;
     private String text;
