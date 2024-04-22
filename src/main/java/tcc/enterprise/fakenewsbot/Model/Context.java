@@ -9,4 +9,5 @@ import lombok.ToString;
 @ToString
 public class Context {
     private String message_id;
+    private String from;
 }
