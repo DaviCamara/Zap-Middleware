@@ -2,7 +2,7 @@ package tcc.enterprise.fakenewsbot.util.enums;
 
 public enum MessageIndex {
 
-    ONE("text"), TWO("audio"), THREE("image"), FOUR("4");
+    ONE("Visitar o nosso site!"), TWO("Falar com o Suporte");
 
     private String text;
 

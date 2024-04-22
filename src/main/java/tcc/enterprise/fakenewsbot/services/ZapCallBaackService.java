@@ -15,6 +15,7 @@ import tcc.enterprise.fakenewsbot.Model.Text;
 import tcc.enterprise.fakenewsbot.util.enums.Buttons;
 import tcc.enterprise.fakenewsbot.util.enums.MessageIndex;
 import tcc.enterprise.fakenewsbot.util.enums.MessageTypes;
+import tcc.enterprise.fakenewsbot.util.enums.Respostas;
 
 import java.io.*;
 import java.net.*;
@@ -89,14 +90,10 @@ public class ZapCallBaackService {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (messageRecieved.equals(MessageIndex.ONE.getText())) {
-            System.out.println("ASD");
+            stringBuilder.append(Respostas.SITE.getText());
         } else if (messageRecieved.equals(MessageIndex.TWO.getText())) {
-            System.out.println("ASD");
-        } else if (messageRecieved.equals(MessageIndex.THREE.getText())) {
-            System.out.println("ASD");
-        } else if (messageRecieved.equals(MessageIndex.FOUR.getText())) {
-            stringBuilder.append("Percentual de acerto: %.2f%%");
-        } else {
+            stringBuilder.append(Respostas.SUPPORT.getText());
+        }  else {
             stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação");
         }
         return stringBuilder.toString();
