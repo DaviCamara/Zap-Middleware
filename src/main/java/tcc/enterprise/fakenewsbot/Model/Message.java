@@ -19,4 +19,5 @@ public class Message {
     private Text text;
     private InteractiveReply interactive;
     private ButtonReplyCallBack button;
+    private Context context;
 }

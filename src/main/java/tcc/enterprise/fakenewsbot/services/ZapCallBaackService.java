@@ -58,7 +58,7 @@ public class ZapCallBaackService {
         String caseTexto = null;
 
         logger.info("message-padrao: " + message.toString());
-        if (message.getButton() != null){
+        if (message.getContext() != null){
                 //.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
             caseTexto = message.getButton().getPayload();
             logger.info("message_quick_reply: " + message);
