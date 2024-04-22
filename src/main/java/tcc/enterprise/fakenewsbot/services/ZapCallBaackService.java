@@ -52,7 +52,10 @@ public class ZapCallBaackService {
 
     public String callBackHandler(MessageCallBack messageCallBack) throws URISyntaxException, IOException {
         // message = "true";
-        Message message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
+        Message message = null;
+        if(messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() != null) {
+          message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
+        }
         String phonenumberReciever = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getContacts().get(0).getWa_id();
         String messagemEnviar = null;
         String caseTexto = null;

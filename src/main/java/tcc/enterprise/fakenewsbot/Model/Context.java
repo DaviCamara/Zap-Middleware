@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Context {
+    private String id;
     private String message_id;
     private String from;
 }
