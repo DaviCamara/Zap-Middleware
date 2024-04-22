@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import tcc.enterprise.fakenewsbot.Model.Messages.MessageInterativa.Button;
 import tcc.enterprise.fakenewsbot.Model.Messages.MessageInterativa.Interactive;
 
 @Getter
@@ -17,4 +18,5 @@ public class Message {
     private Audio audio;
     private Text text;
     private InteractiveReply interactive;
+    private ButtonReplyCallBack button;
 }

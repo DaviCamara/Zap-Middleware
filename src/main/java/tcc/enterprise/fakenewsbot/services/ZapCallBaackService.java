@@ -58,12 +58,13 @@ public class ZapCallBaackService {
         String caseTexto = null;
 
         logger.info("message-padrao: " + message.toString());
-        if (message.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
-            caseTexto = message.getInteractive().getButton_reply().getTitle();
-            logger.info("messageInteractive: " + message);
+        if (message.getButton() != null){
+                //.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
+            caseTexto = message.getButton().getPayload();
+            logger.info("message_quick_reply: " + message);
             messagemEnviar = messageHandler(caseTexto);
             sendWhatsappMessage(phonenumberReciever, messagemEnviar);
-            return "enviouInteractive";
+            return "enviou_quick_reply";
         } else if (message.getType().equals(MessageTypes.TEXT.getDescription())) {
             caseTexto = message.getText().getBody();
             logger.info("messageText: " + message);

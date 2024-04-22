@@ -1,5 +1,6 @@
 package tcc.enterprise.fakenewsbot.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,7 +17,5 @@ public class Value {
     private List<Contact> contacts;
 
     private List<Message> messages;
-
-    private String statuses;
 
 }
