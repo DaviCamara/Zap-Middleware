@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import tcc.enterprise.fakenewsbot.Model.Messages.MessageInterativa.Interactive;
 
 @Getter
 @Setter
@@ -15,4 +16,5 @@ public class Message {
     private String type;
     private Audio audio;
     private Text text;
+    private Interactive interactive;
 }

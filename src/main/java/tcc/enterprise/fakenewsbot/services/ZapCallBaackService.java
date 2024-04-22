@@ -73,8 +73,12 @@ public class ZapCallBaackService {
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
             //String percentualFormated = String.format("%.2f", percentual);
             return "enviouMedia";
-        }
-        if (message.getType().equals(MessageTypes.TEXT.getDescription())) {
+        } else if (message.getType().equals(MessageTypes.TEXT.getDescription())) {
+            caseTexto = message.getInteractive().getButtonReply().getTitle();
+            logger.info("message: " + message.getText().getBody());
+            messagemEnviar = messageHandler(caseTexto);
+            sendWhatsappInteractiveMessage(phonenumberReciever, messagemEnviar);
+        } else if (message.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
             caseTexto = message.getText().getBody();
             logger.info("message: " + message.getText().getBody());
             messagemEnviar = messageHandler(caseTexto);
