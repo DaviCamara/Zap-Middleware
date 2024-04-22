@@ -58,7 +58,18 @@ public class ZapCallBaackService {
         String caseTexto = null;
 
         logger.info("message-padrao: " + message.toString());
-        if (!message.getType().equals(MessageTypes.TEXT.getDescription())) {
+        if (message.getType().equals(MessageTypes.TEXT.getDescription())) {
+            caseTexto = message.getText().getBody();
+            logger.info("message: " + message);
+            messagemEnviar = messageHandler(caseTexto);
+            sendWhatsappInteractiveMessage(phonenumberReciever, messagemEnviar);
+
+        } else if (message.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
+            caseTexto = message.getInteractive().getButton_reply().getTitle();
+            logger.info("message: " + message);
+            messagemEnviar = messageHandler(caseTexto);
+            sendWhatsappMessage(phonenumberReciever, messagemEnviar);
+        } else if (!message.getType().equals(MessageTypes.TEXT.getDescription())) {
             caseTexto = "4";
             logger.info("media-id: " + message.getAudio().getId());
             MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
@@ -73,17 +84,6 @@ public class ZapCallBaackService {
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
             //String percentualFormated = String.format("%.2f", percentual);
             return "enviouMedia";
-        } else if (message.getType().equals(MessageTypes.TEXT.getDescription())) {
-            caseTexto = message.getText().getBody();
-            logger.info("message: " + message);
-            messagemEnviar = messageHandler(caseTexto);
-            sendWhatsappInteractiveMessage(phonenumberReciever, messagemEnviar);
-
-        } else if (message.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
-            caseTexto = message.getInteractive().getButtonReply().getTitle();
-            logger.info("message: " + message);
-            messagemEnviar = messageHandler(caseTexto);
-            sendWhatsappInteractiveMessage(phonenumberReciever, messagemEnviar);
         }
 
 
@@ -149,7 +149,7 @@ public class ZapCallBaackService {
         HttpEntity<MessageInterativa> entity = new HttpEntity<>(messageInterativa, headers);
 
 
-        ResponseEntity<MessageAvulsa> result = restTemplate.exchange(uri, HttpMethod.POST, entity, MessageAvulsa.class);
+        ResponseEntity<MessageInterativa> result = restTemplate.exchange(uri, HttpMethod.POST, entity, MessageInterativa.class);
 
         return "ok";
     }

@@ -16,5 +16,5 @@ public class Message {
     private String type;
     private Audio audio;
     private Text text;
-    private Interactive interactive;
+    private InteractiveReply interactive;
 }

@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class button_reply {
+public class ButtonReply {
     private String id;
     private String title;
 }
