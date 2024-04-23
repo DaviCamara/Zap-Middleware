@@ -11,4 +11,5 @@ public class Context {
     private String id;
     private String message_id;
     private String from;
+    private Boolean forwarded;
 }
