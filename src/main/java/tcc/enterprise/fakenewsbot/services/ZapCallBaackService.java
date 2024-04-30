@@ -84,20 +84,27 @@ public class ZapCallBaackService {
             caseTexto = "rede-neural";
 
             MediaUrl mediaUrl = null;
-
+            String fileFormat = null;
             if (message.getType().equals(MessageTypes.DOCUMENT.getDescription())) {
-                logger.info("media-id: " + message.getAudio().getId());
-                //mediaUrl = getWhatsAppMediaUrl(message.getDocument().getFilename());
+                logger.info("media-id-document: " + message.getDocument().getId());
+                mediaUrl = getWhatsAppMediaUrl(message.getDocument().getId());
+                String[] parts = message.getDocument().getFilename().split("\\.");
+                fileFormat = parts[parts.length - 1];
+                logger.info("fileFormat: " + fileFormat);
+
 
             } else {
-                logger.info("media-id: " + message.getAudio().getId());
+                logger.info("media-id-audio: " + message.getAudio().getId());
                 mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
+                String[] parts = message.getDocument().getFilename().split("\\.");
+                fileFormat = parts[parts.length - 1];
+                logger.info("fileFormat: " + fileFormat);
             }
 
             byte[] media = downloadWhatsAppMedia(mediaUrl);
             logger.info("media" + media);
 
-            Double percentual = sendMediaToRedeNeural(media);
+            Double percentual = sendMediaToRedeNeural(media,fileFormat);
             messagemEnviar = String.format(messageHandler(caseTexto), percentual);
             sendWhatsappMessage(phonenumberReciever, messagemEnviar);
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
@@ -236,7 +243,7 @@ public class ZapCallBaackService {
     }
 
 
-    public Double sendMediaToRedeNeural(byte[] media) throws IOException {
+    public Double sendMediaToRedeNeural(byte[] media,String fileFormat) throws IOException {
         byte[] fileBytes = media;
         String uploadUrl = "http://104.131.190.85:5000/";
 
@@ -252,7 +259,8 @@ public class ZapCallBaackService {
         // Get the output stream of the connection
         OutputStream outputStream = connection.getOutputStream();
 
-        writeFormField(outputStream, "audio", "uploaded_audio.ogg", fileBytes);
+
+        writeFormField(outputStream, "audio", "uploaded_audio." + fileFormat, fileBytes);
 
         // Write the byte array to the output stream
         outputStream.write(fileBytes);

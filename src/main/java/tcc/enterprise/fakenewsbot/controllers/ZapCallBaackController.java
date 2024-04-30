@@ -63,7 +63,7 @@ public class ZapCallBaackController {
         media.getName();
         byte[] strToBytes = media.getBytes();
 
-        String percentual = String.format("%.2f", zapCallBaackService.sendMediaToRedeNeural(strToBytes));
+        String percentual = String.format("%.2f", zapCallBaackService.sendMediaToRedeNeural(strToBytes, ".ogg"));
         // String percentual =  zapCallBaackService.sendMediaToRedeNeural(strToBytes);
 
         return ResponseEntity.ok(percentual);
