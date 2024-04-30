@@ -96,8 +96,8 @@ public class ZapCallBaackService {
             } else {
                 logger.info("media-id-audio: " + message.getAudio().getId());
                 mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
-                String[] parts = message.getDocument().getFilename().split("\\.");
-                fileFormat = parts[parts.length - 1];
+                //String[] parts = message.getAudio().getFilename().split("\\.");
+                fileFormat = "ogg";
                 logger.info("fileFormat: " + fileFormat);
             }
 
