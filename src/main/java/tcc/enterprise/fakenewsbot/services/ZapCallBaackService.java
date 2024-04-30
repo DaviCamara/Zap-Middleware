@@ -82,8 +82,16 @@ public class ZapCallBaackService {
             messagemAguarde = messageHandler(caseTexto);
             sendWhatsappMessage(phonenumberReciever, messagemAguarde);
             caseTexto = "rede-neural";
-            logger.info("media-id: " + message.getAudio().getId());
-            MediaUrl mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
+
+            MediaUrl mediaUrl = null;
+
+            if (message.getType().equals(MessageTypes.DOCUMENT.getDescription())) {
+                //mediaUrl = getWhatsAppMediaUrl(message.getDocument().getFilename());
+
+            } else {
+                logger.info("media-id: " + message.getAudio().getId());
+                mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
+            }
 
             byte[] media = downloadWhatsAppMedia(mediaUrl);
             logger.info("media" + media);
@@ -108,11 +116,11 @@ public class ZapCallBaackService {
             stringBuilder.append(Respostas.SITE.getText());
         } else if (messageRecieved.equals(MessageIndex.TWO.getId())) {
             stringBuilder.append(Respostas.SUPPORT.getText());
-        } else if (messageRecieved.equals(MessageIndex.NINENINENINE.getId())){
+        } else if (messageRecieved.equals(MessageIndex.NINENINENINE.getId())) {
             stringBuilder.append(Respostas.REDE_NEURAL.getText());
-        } else if (messageRecieved.equals(MessageIndex.NINENINEEIGTH.getId())){
+        } else if (messageRecieved.equals(MessageIndex.NINENINEEIGTH.getId())) {
             stringBuilder.append(Respostas.AGUARDE.getText());
-        }else {
+        } else {
             stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação");
         }
         return stringBuilder.toString();

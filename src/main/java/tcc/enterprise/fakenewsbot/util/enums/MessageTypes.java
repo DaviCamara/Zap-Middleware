@@ -2,7 +2,8 @@ package tcc.enterprise.fakenewsbot.util.enums;
 
 public enum MessageTypes {
 
-    TEXT("text"), AUDIO("audio"), IMAGE("imagem"), INTERACTIVE("interactive");
+    TEXT("text"), AUDIO("audio"), IMAGE("imagem"), INTERACTIVE("interactive"),
+    DOCUMENT("document");
 
     private String description;
 
