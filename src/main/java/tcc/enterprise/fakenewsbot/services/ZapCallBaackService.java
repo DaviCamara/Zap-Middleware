@@ -86,6 +86,7 @@ public class ZapCallBaackService {
             MediaUrl mediaUrl = null;
 
             if (message.getType().equals(MessageTypes.DOCUMENT.getDescription())) {
+                logger.info("media-id: " + message.getAudio().getId());
                 //mediaUrl = getWhatsAppMediaUrl(message.getDocument().getFilename());
 
             } else {

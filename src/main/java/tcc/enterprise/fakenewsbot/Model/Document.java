@@ -14,4 +14,6 @@ public class Document {
     private String caption;
     private String filename;
     private String provider;
+    private String mime_type;
+
 }
