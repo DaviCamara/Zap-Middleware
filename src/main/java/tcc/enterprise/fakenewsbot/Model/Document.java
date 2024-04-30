@@ -15,5 +15,6 @@ public class Document {
     private String filename;
     private String provider;
     private String mime_type;
+    private String sha256;
 
 }
