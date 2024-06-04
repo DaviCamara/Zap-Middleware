@@ -129,7 +129,8 @@ public class ZapCallBaackService {
         } else if (messageRecieved.equals(MessageIndex.NINENINEEIGTH.getId())) {
             stringBuilder.append(Respostas.AGUARDE.getText());
         } else {
-            stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação");
+            stringBuilder.append("Olá seja bem vindo ao MediaGuard! por favor selecione uma das opções abaixo! ou envie um áudio para verificação. " +
+                    "Evite utilizar o microfone padrão do seu celular para enviar áudios a serem verificados pois isso pode afetar a performance.");
         }
         return stringBuilder.toString();
     }
