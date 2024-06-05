@@ -92,8 +92,15 @@ public class ZapCallBaackService {
                 fileFormat = parts[parts.length - 1];
                 logger.info("fileFormat: " + fileFormat);
 
+            } else if(message.getType().equals(MessageTypes.VIDEO.getDescription())) {
+                logger.info("media-id-video: " + message.getVideo().getId());
+                mediaUrl = getWhatsAppMediaUrl(message.getVideo().getId());
+                String[] parts = message.getVideo().getMime_type().split("/");
+                fileFormat = parts[parts.length - 1];
+                logger.info("fileFormat: " + fileFormat);
 
-            } else {
+            }
+            else {
                 logger.info("media-id-audio: " + message.getAudio().getId());
                 mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
                 //String[] parts = message.getAudio().getFilename().split("\\.");
