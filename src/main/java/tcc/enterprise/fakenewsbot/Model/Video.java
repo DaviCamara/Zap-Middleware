@@ -8,5 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Video {
+    private String mime_type;
     private String id;
+    private String sha256;
 }
