@@ -21,5 +21,5 @@ public class Message {
     private ButtonReplyCallBack button;
     private Context context;
     private Document document;
-    private String video;
+    private Video video;
 }
