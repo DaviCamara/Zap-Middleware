@@ -278,7 +278,7 @@ public class ZapCallBaackService {
 
         // Get the response code
         int responseCode = connection.getResponseCode();
-        System.out.println("Response Code: " + responseCode);
+        logger.info("Response Code: " + responseCode);
 
         String line = null;
         if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -287,12 +287,12 @@ public class ZapCallBaackService {
 
             //while (reader.readLine() != null) {
             line = reader.readLine();
-            System.out.println(reader.readLine());
+            logger.info(reader.readLine());
             //  }
 
             reader.close();
         } else {
-            System.out.println("Error in HTTP request: " + responseCode);
+            logger.info("Error in HTTP request: " + responseCode);
         }
 
 
@@ -302,11 +302,11 @@ public class ZapCallBaackService {
         try {
             // Convert the string to a double using Double.parseDouble
             double percentual = Double.parseDouble(line);
-            System.out.println("Converted to double: " + percentual);
+            logger.info("Converted to double: " + percentual);
             return percentual;
             // Print the result
         } catch (NumberFormatException e) {
-            System.out.println("Invalid number format");
+            logger.info("Invalid number format");
         }
         return null;
     }
