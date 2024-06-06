@@ -103,10 +103,19 @@ public class ZapCallBaackService {
             else {
                 logger.info("media-id-audio: " + message.getAudio().getId());
                 mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
-                String[] parts = message.getAudio().getMime_type().split("/");
-                fileFormat = parts[parts.length - 1];
+                if(message.getAudio().getMime_type().contains(";")){
+                    String[] mainTypeParts = message.getAudio().getMime_type().split(";"); // Split by semicolon to separate parameters
+                    logger.info("mainTypeParts: " + mainTypeParts);
+                    String[] typeSubtype = mainTypeParts[0].split("/"); // Split the actual MIME type by slash
+                    logger.info("typeSubtype: " + typeSubtype);
+                    fileFormat = typeSubtype[1];
+                    logger.info("typeSubtype[1]: " + typeSubtype[1]);
+                }else {
+                    String[] parts = message.getAudio().getMime_type().split("/");
+                    fileFormat = parts[parts.length - 1];
+                }
                 // fileFormat = "ogg";
-                logger.info("fileFormat: " + fileFormat);
+                logger.info("fileFormat-final: " + fileFormat);
             }
 
             byte[] media = downloadWhatsAppMedia(mediaUrl);
