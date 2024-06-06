@@ -115,6 +115,9 @@ public class ZapCallBaackService {
                     fileFormat = parts[parts.length - 1];
                 }
                 // fileFormat = "ogg";
+                if (fileFormat.equals("mpeg")){
+                    fileFormat = "mp3";
+                }
                 logger.info("fileFormat-final: " + fileFormat);
             }
 
