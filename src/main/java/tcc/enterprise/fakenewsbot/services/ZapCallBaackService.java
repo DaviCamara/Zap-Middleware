@@ -54,6 +54,9 @@ public class ZapCallBaackService {
         // message = "true";
         Message message = null;
         String phonenumberReciever = null;
+        if (messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() == null){
+            return null;
+        }
         if (messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() != null) {
             message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
         }
