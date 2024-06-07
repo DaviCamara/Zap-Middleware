@@ -54,7 +54,7 @@ public class ZapCallBaackService {
         // message = "true";
         Message message = null;
         String phonenumberReciever = null;
-        if (messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() == null){
+        if (messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() == null) {
             return null;
         }
         if (messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() != null) {
@@ -67,7 +67,9 @@ public class ZapCallBaackService {
         String messagemAguarde = null;
         String caseTexto = null;
 
-        logger.info("message-padrao: " + message.toString());
+        if (message != null) {
+            logger.info("message-padrao: " + message.toString());
+        }
         if (message.getType().equals(MessageTypes.INTERACTIVE.getDescription())) {
             caseTexto = message.getInteractive().getButton_reply().getId();
             logger.info("message Interactive: " + message);
@@ -95,30 +97,29 @@ public class ZapCallBaackService {
                 fileFormat = parts[parts.length - 1];
                 logger.info("fileFormat: " + fileFormat);
 
-            } else if(message.getType().equals(MessageTypes.VIDEO.getDescription())) {
+            } else if (message.getType().equals(MessageTypes.VIDEO.getDescription())) {
                 logger.info("media-id-video: " + message.getVideo().getId());
                 mediaUrl = getWhatsAppMediaUrl(message.getVideo().getId());
                 String[] parts = message.getVideo().getMime_type().split("/");
                 fileFormat = parts[parts.length - 1];
                 logger.info("fileFormat: " + fileFormat);
 
-            }
-            else {
+            } else {
                 logger.info("media-id-audio: " + message.getAudio().getId());
                 mediaUrl = getWhatsAppMediaUrl(message.getAudio().getId());
-                if(message.getAudio().getMime_type().contains(";")){
+                if (message.getAudio().getMime_type().contains(";")) {
                     String[] mainTypeParts = message.getAudio().getMime_type().split(";"); // Split by semicolon to separate parameters
                     logger.info("mainTypeParts: " + mainTypeParts);
                     String[] typeSubtype = mainTypeParts[0].split("/"); // Split the actual MIME type by slash
                     logger.info("typeSubtype: " + typeSubtype);
                     fileFormat = typeSubtype[1];
                     logger.info("typeSubtype[1]: " + typeSubtype[1]);
-                }else {
+                } else {
                     String[] parts = message.getAudio().getMime_type().split("/");
                     fileFormat = parts[parts.length - 1];
                 }
                 // fileFormat = "ogg";
-                if (fileFormat.equals("mpeg")){
+                if (fileFormat.equals("mpeg")) {
                     fileFormat = "mp3";
                 }
                 logger.info("fileFormat-final: " + fileFormat);
@@ -127,7 +128,7 @@ public class ZapCallBaackService {
             byte[] media = downloadWhatsAppMedia(mediaUrl);
             logger.info("media" + media);
 
-            Double percentual = sendMediaToRedeNeural(media,fileFormat);
+            Double percentual = sendMediaToRedeNeural(media, fileFormat);
             messagemEnviar = String.format(messageHandler(caseTexto), percentual);
             sendWhatsappMessage(phonenumberReciever, messagemEnviar);
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
@@ -267,7 +268,7 @@ public class ZapCallBaackService {
     }
 
 
-    public Double sendMediaToRedeNeural(byte[] media,String fileFormat) throws IOException {
+    public Double sendMediaToRedeNeural(byte[] media, String fileFormat) throws IOException {
         byte[] fileBytes = media;
         String uploadUrl = "http://104.131.190.85:5000/";
 
