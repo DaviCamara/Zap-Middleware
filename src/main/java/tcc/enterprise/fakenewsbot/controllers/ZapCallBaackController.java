@@ -36,7 +36,7 @@ public class ZapCallBaackController {
         //logger.info(zapCallBaackService.find());
         logger.info("[JSON CALLBACK]--CallBack: " + retornoCallback.toString());
         logger.info("[JSON retorno HANDLER]--HANDLER:" + retornoHandler);
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok().build();
     }
 
     @Autowired
