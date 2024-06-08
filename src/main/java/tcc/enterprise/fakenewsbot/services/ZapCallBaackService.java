@@ -160,7 +160,7 @@ public class ZapCallBaackService {
     }
 
 
-    public String sendWhatsappInteractiveMessage(String phoneNumberReciever, String message) throws URISyntaxException {
+    public ResponseEntity<Object> sendWhatsappInteractiveMessage(String phoneNumberReciever, String message) throws URISyntaxException {
         RestTemplate restTemplate = new RestTemplate();
         URI uri = new URI("https://graph.facebook.com/v17.0/" + phoneNumberSender + "/messages");
 
@@ -206,10 +206,10 @@ public class ZapCallBaackService {
 
         ResponseEntity<MessageInterativa> result = restTemplate.exchange(uri, HttpMethod.POST, entity, MessageInterativa.class);
 
-        return "ok";
+        return ResponseEntity.ok().build();
     }
 
-    public String sendWhatsappMessage(String phoneNumberReciever, String message) throws URISyntaxException {
+    public ResponseEntity<Object> sendWhatsappMessage(String phoneNumberReciever, String message) throws URISyntaxException {
 
         RestTemplate restTemplate = new RestTemplate();
         URI uri = new URI("https://graph.facebook.com/v17.0/" + phoneNumberSender + "/messages");
@@ -236,7 +236,7 @@ public class ZapCallBaackService {
 
         ResponseEntity<MessageAvulsa> result = restTemplate.exchange(uri, HttpMethod.POST, entity, MessageAvulsa.class);
 
-        return "ok";
+        return ResponseEntity.ok().build();
     }
 
     public MediaUrl getWhatsAppMediaUrl(String mediaId) throws URISyntaxException {
@@ -344,5 +344,4 @@ public class ZapCallBaackService {
         // Write the end delimiter
         outputStream.write(endDelimiter.getBytes());
     }
-    //TODO: MODULARIZAR O PARAMETRO DE TEXTO, AVERIGAR SE O NUMERO de telefone DEVERIA VIR DA REDE NEURAL
 }
