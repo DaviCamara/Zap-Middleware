@@ -51,12 +51,12 @@ public class ZapCallBaackService {
         return callBackJson;
     }
     @Async
-    public String callBackHandler(MessageCallBack messageCallBack) throws URISyntaxException, IOException {
+    public void callBackHandler(MessageCallBack messageCallBack) throws URISyntaxException, IOException {
         // message = "true";
         Message message = null;
         String phonenumberReciever = null;
         if (messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() == null) {
-            return null;
+            return;
         }
         if (messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages() != null) {
             message = messageCallBack.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0);
@@ -76,7 +76,7 @@ public class ZapCallBaackService {
             logger.info("message Interactive: " + message);
             messagemEnviar = messageHandler(caseTexto);
             sendWhatsappMessage(phonenumberReciever, messagemEnviar);
-            return "enviou Interactive";
+            return;
         } else if (message.getType().equals(MessageTypes.TEXT.getDescription())) {
             caseTexto = message.getText().getBody();
             logger.info("messageText: " + message);
@@ -134,11 +134,11 @@ public class ZapCallBaackService {
             sendWhatsappMessage(phonenumberReciever, messagemEnviar);
             logger.info("[phonenumberReciever]--phonenumberReciever: " + phonenumberReciever.toString());
             //String percentualFormated = String.format("%.2f", percentual);
-            return "enviouMedia";
+            return;
         }
 
 
-        return "ok";
+        return;
 
     }
 
