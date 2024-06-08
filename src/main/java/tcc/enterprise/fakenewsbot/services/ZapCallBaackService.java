@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tcc.enterprise.fakenewsbot.Model.Medias.MediaUrl;
@@ -49,7 +50,7 @@ public class ZapCallBaackService {
         MessageCallBack callBackJson = objectMapper.readValue(inputJson, MessageCallBack.class);
         return callBackJson;
     }
-
+    @Async
     public String callBackHandler(MessageCallBack messageCallBack) throws URISyntaxException, IOException {
         // message = "true";
         Message message = null;
