@@ -163,7 +163,7 @@ public class ZapCallBaackService {
 
     public ResponseEntity<Object> sendWhatsappInteractiveMessage(String phoneNumberReciever, String message) throws URISyntaxException {
         RestTemplate restTemplate = new RestTemplate();
-        URI uri = new URI("https://graph.facebook.com/v17.0/" + phoneNumberSender + "/messages");
+        URI uri = new URI("https://graph.facebook.com/v19.0/" + phoneNumberSender + "/messages");
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + permanentAcessToken2);
@@ -213,7 +213,7 @@ public class ZapCallBaackService {
     public ResponseEntity<Object> sendWhatsappMessage(String phoneNumberReciever, String message) throws URISyntaxException {
 
         RestTemplate restTemplate = new RestTemplate();
-        URI uri = new URI("https://graph.facebook.com/v17.0/" + phoneNumberSender + "/messages");
+        URI uri = new URI("https://graph.facebook.com/v19.0/" + phoneNumberSender + "/messages");
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + permanentAcessToken2);
@@ -243,7 +243,7 @@ public class ZapCallBaackService {
     public MediaUrl getWhatsAppMediaUrl(String mediaId) throws URISyntaxException {
 
         RestTemplate restTemplate = new RestTemplate();
-        URI uri = new URI("https://graph.facebook.com/v17.0/" + mediaId);
+        URI uri = new URI("https://graph.facebook.com/19.0/" + mediaId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + permanentAcessToken2);
