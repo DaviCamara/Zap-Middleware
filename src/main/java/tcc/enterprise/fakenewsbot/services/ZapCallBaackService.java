@@ -243,7 +243,7 @@ public class ZapCallBaackService {
     public MediaUrl getWhatsAppMediaUrl(String mediaId) throws URISyntaxException {
 
         RestTemplate restTemplate = new RestTemplate();
-        URI uri = new URI("https://graph.facebook.com/19.0/" + mediaId);
+        URI uri = new URI("https://graph.facebook.com/v19.0/" + mediaId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + permanentAcessToken2);
