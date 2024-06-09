@@ -31,7 +31,7 @@ public class ZapCallBaackService {
     String envVerifyToken;
     @Value("${phone-number-sender}")
     String phoneNumberSender;
-    @Value("${permanent-acess-token}")
+    @Value("${permanent-acess-token2}")
     String permanentAcessToken2;
 
     public boolean verifyHandShake(String hubVerifyToken) {
