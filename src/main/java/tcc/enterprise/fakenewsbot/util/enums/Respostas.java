@@ -1,7 +1,7 @@
 package tcc.enterprise.fakenewsbot.util.enums;
 
 public enum Respostas {
-    SITE("Show!, segue o link do nosso site: https://joaovluna.github.io/mediaguard/"), SUPPORT("Massa! manda um email para gente na página https://joaovluna.github.io/mediaguard/ ou no email mediaguard.suporte@gmail.com"), AGUARDE("Estamos processando seu áudio, por gentileza aguarde! Evite utilizar o microfone padrão do seu celular para enviar áudios a serem verificados pois isso pode afetar a performance"), REDE_NEURAL("Percentual de acerto: %.2f%%");
+    SITE("Show!, segue o link do nosso site: https://joaovluna.github.io/mediaguard/"), SUPPORT("Massa! manda um email para gente na página https://joaovluna.github.io/mediaguard/ ou no email mediaguard.suporte@gmail.com"), AGUARDE("Estamos processando seu áudio, por gentileza aguarde! Evite utilizar o microfone padrão do seu celular para enviar áudios a serem verificados pois isso pode afetar a performance"), REDE_NEURAL("Percentual de veracidade: %.2f%%");
 
     private String text;
 
